@@ -59,6 +59,7 @@ class MigrateCommand extends BaseCommand
         }
 
         $this->migrator->setConnection($this->option('database'));
+        $this->migrator->setOutput($this->output);
 
         // Next, we will check to see if a path option has been defined. If it has
         // we will use the path relative to the root of this installation folder
@@ -67,12 +68,7 @@ class MigrateCommand extends BaseCommand
             'pretend' => $this->option('pretend'),
             'step' => $this->option('step'),
         ]);
-        // Once the migrator has run we will grab the note output and send it out to
-        // the console screen, since the migrator itself functions without having
-        // any instances of the OutputInterface contract passed into the class.
-        foreach ($this->migrator->getNotes() as $note) {
-            $this->output->writeln($note);
-        }
+
         // Finally, if the "seed" option has been given, we will re-run the database
         // seed task to re-populate the database, which is convenient when adding
         // a migration and a seed at the same time, as it is only this command.
